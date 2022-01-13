@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     public Transform reposition;
     public static GameManager Instance { get; private set; }
     public GameObject[] obstacleList;
+    public int money { get; set; }
     
     private int _life;
 

@@ -7,6 +7,8 @@ TagManager:
   - obstacle
   - ObstacleEdge
   - BallBound
+  - Ball
+  - Speeder
   layers:
   - Default
   - TransparentFX
