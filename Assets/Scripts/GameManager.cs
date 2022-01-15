@@ -1,14 +1,9 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics.SymbolStore;
-using UnityEditor.Build;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     public const float Speed = 1;
-    public static bool IsScrolling;
+    public static int GameState;
 
     public Transform reposition;
     public static GameManager Instance { get; private set; }
@@ -31,24 +26,25 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        IsScrolling = true;
+        GameState = 1;
         _life = 3;
+        money = 100;
     }
 
-    public void BallOutofBound()
+    public void BallOutOfBound()
     {
         if (--_life == 0)
         {
             Fail();
         }
 
-        IsScrolling = false;
+        GameState = 2;
         //
     }
 
     private void Fail()
     {
-        
+        GameState = 3;
     }
 
     private void SpawnObstacle(int id, Vector2 pos)

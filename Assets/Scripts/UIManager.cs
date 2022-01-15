@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,8 +21,15 @@ public class UIManager : MonoBehaviour
             var i1 = i;
             obstacleList[i1].GetComponent<Button>().onClick.AddListener(delegate
             {
+                if (GameManager.GameState > 1)
+                    return;
+                
+                var tempMoney = GameManager.Instance.money - prefabList[i1].GetComponent<Obstacle>().value;
+                if (tempMoney < 0)
+                    return;
+                
+                GameManager.Instance.money = tempMoney;
                 TogglePreview(i1);
-                GameManager.Instance.money -= prefabList[i1].GetComponent<Obstacle>().value;
             });
         }
 

@@ -9,6 +9,7 @@ TagManager:
   - BallBound
   - Ball
   - Speeder
+  - Flipper
   layers:
   - Default
   - TransparentFX
