@@ -26,7 +26,7 @@ public class UIManager : MonoBehaviour
                 if (GameManager.GameState > 1)
                     return;
                 
-                var tempMoney = GameManager.Instance.money - prefabList[i1].GetComponent<Obstacle>().value;
+                var tempMoney = GameManager.Instance.money - prefabList[i1].GetComponent<Placable>().value;
                 if (tempMoney < 0)
                 {
                     noMoney.GetComponent<CanvasGroup>().alpha = 1;

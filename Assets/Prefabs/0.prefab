@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 1632277596901060141}
   - component: {fileID: 1632277596901060140}
   - component: {fileID: 1632277596901060130}
-  - component: {fileID: -3538597461507922616}
+  - component: {fileID: 6739610911590177196}
+  - component: {fileID: -5864441052576379090}
   m_Layer: 0
   m_Name: 0
   m_TagString: Speeder
@@ -110,7 +111,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 4.911618, y: 9.237292}
   m_EdgeRadius: 0
---- !u!114 &-3538597461507922616
+--- !u!114 &6739610911590177196
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -119,7 +120,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 1632277596901060143}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96f0bdc1fad44b5b8d78211df71a5848, type: 3}
+  m_Script: {fileID: 11500000, guid: 2407085ec4e0b404d82685f166478c96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  value: 0
+--- !u!114 &-5864441052576379090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1632277596901060143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c64438cf74894e2c81690fe51f22404d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  value: 10
