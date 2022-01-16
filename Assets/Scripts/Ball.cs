@@ -7,6 +7,7 @@ public class Ball : MonoBehaviour
 {
     public Sprite[] sprites;
     public float maxVel;
+    public bool title;
     
     private SpriteRenderer _renderer;
     private Rigidbody2D _rigidbody;
@@ -15,6 +16,12 @@ public class Ball : MonoBehaviour
     {
         _renderer = GetComponent<SpriteRenderer>();
         _rigidbody = GetComponent<Rigidbody2D>();
+        
+        if (title)
+        {
+            _rigidbody.AddForce(new Vector2(300, 450));
+            _rigidbody.AddTorque(1);
+        }    
     }
 
     private void FixedUpdate()

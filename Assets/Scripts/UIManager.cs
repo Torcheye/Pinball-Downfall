@@ -1,3 +1,4 @@
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,6 +9,7 @@ public class UIManager : MonoBehaviour
     public Button[] obstacleList;
     public GameObject[] prefabList;
     public GameObject preview;
+    public GameObject noMoney;
 
     private int _previewID;
     private Transform _previewTransform;
@@ -19,14 +21,21 @@ public class UIManager : MonoBehaviour
         for (var i = 0; i < obstacleList.Length; i++)
         {
             var i1 = i;
-            obstacleList[i1].GetComponent<Button>().onClick.AddListener(delegate
+            obstacleList[i1].GetComponent<Button>().onClick.AddListener(async delegate
             {
                 if (GameManager.GameState > 1)
                     return;
                 
                 var tempMoney = GameManager.Instance.money - prefabList[i1].GetComponent<Obstacle>().value;
                 if (tempMoney < 0)
+                {
+                    noMoney.GetComponent<CanvasGroup>().alpha = 1;
+                    var tween = noMoney.transform.DOMoveY(noMoney.transform.position.y + 80, .8f).SetEase(Ease.InCirc);
+                    noMoney.GetComponent<CanvasGroup>().DOFade(0, .8f).SetEase(Ease.InCirc);
+                    await tween.AsyncWaitForCompletion();
+                    noMoney.transform.DOMoveY(noMoney.transform.position.y - 80, .01f);
                     return;
+                }
                 
                 GameManager.Instance.money = tempMoney;
                 TogglePreview(i1);
