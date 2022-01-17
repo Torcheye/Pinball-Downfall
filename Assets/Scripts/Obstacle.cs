@@ -13,7 +13,7 @@ public class Obstacle : Scroller
         
         if (col.gameObject.CompareTag("Ball"))
         {
-            GameManager.Instance.money += GetComponent<Placable>().value;
+            GameManager.Instance.Score += GetComponent<Placable>().score;
 
             GetComponent<Collider2D>().enabled = false;
             var tween = transform.DOPunchScale(transform.localScale * .3f, .4f);

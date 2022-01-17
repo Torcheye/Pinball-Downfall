@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Ball : MonoBehaviour
@@ -21,7 +19,7 @@ public class Ball : MonoBehaviour
         {
             _rigidbody.AddForce(new Vector2(300, 450));
             _rigidbody.AddTorque(1);
-        }    
+        }
     }
 
     private void FixedUpdate()

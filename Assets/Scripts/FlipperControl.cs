@@ -15,7 +15,7 @@ public class FlipperControl : MonoBehaviour
 
     void Update()
     {
-        if (GameManager.GameState > 1)
+        if (GameManager.Instance.gameState != 1)
             return;
         
         if (Input.GetMouseButtonDown(0))

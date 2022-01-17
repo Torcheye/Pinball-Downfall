@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    public TextMeshProUGUI moneyDisplay;
+    public TextMeshProUGUI moneyDisplay, scoreDisplay;
     public Button[] obstacleList;
     public GameObject[] prefabList;
     public GameObject preview;
@@ -21,25 +21,7 @@ public class UIManager : MonoBehaviour
         for (var i = 0; i < obstacleList.Length; i++)
         {
             var i1 = i;
-            obstacleList[i1].GetComponent<Button>().onClick.AddListener(async delegate
-            {
-                if (GameManager.GameState > 1)
-                    return;
-                
-                var tempMoney = GameManager.Instance.money - prefabList[i1].GetComponent<Placable>().value;
-                if (tempMoney < 0)
-                {
-                    noMoney.GetComponent<CanvasGroup>().alpha = 1;
-                    var tween = noMoney.transform.DOMoveY(noMoney.transform.position.y + 80, .8f).SetEase(Ease.InCirc);
-                    noMoney.GetComponent<CanvasGroup>().DOFade(0, .8f).SetEase(Ease.InCirc);
-                    await tween.AsyncWaitForCompletion();
-                    noMoney.transform.DOMoveY(noMoney.transform.position.y - 80, .01f);
-                    return;
-                }
-                
-                GameManager.Instance.money = tempMoney;
-                TogglePreview(i1);
-            });
+            obstacleList[i1].GetComponent<Button>().onClick.AddListener(delegate { AddListener(i1); });
         }
 
         _previewID = -1;
@@ -49,6 +31,30 @@ public class UIManager : MonoBehaviour
         
         TogglePreview(-1);
     }
+
+    private async void AddListener(int i1)
+    {
+        if (GameManager.Instance.gameState > 1)
+            return;
+
+        var tempMoney = GameManager.Instance.Money - prefabList[i1].GetComponent<Placable>().value;
+        if (tempMoney < 0)
+        {
+            var position = noMoney.transform.position;
+            
+            noMoney.GetComponent<CanvasGroup>().alpha = 1;
+            var tween = noMoney.transform.DOMoveY(position.y + 80, .8f).SetEase(Ease.InCirc);
+            noMoney.GetComponent<CanvasGroup>().DOFade(0, .8f).SetEase(Ease.InCirc);
+            
+            await tween.AsyncWaitForCompletion();
+            noMoney.transform.DOMoveY(position.y - 80, .01f);
+            return;
+        }
+
+        GameManager.Instance.Money = tempMoney;
+        TogglePreview(i1);
+    }
+    
 
     private void TogglePreview(int id)
     {
@@ -60,13 +66,13 @@ public class UIManager : MonoBehaviour
         }
         preview.SetActive(true);
         _previewTransform.localScale = prefabList[id].transform.localScale;
-        _previewSpriteRenderer.color = new Color(0.41f, 1f, 0.4f, 0.41f);
         _previewSpriteRenderer.sprite = prefabList[id].GetComponent<SpriteRenderer>().sprite;
     }
 
     private void Update()
     {
-        moneyDisplay.text = "$ " + GameManager.Instance.money;
+        moneyDisplay.text = "$" + GameManager.Instance.Money;
+        scoreDisplay.text = ((int) GameManager.Instance.Score).ToString();
 
         if (_previewID != -1)
         {
@@ -76,6 +82,7 @@ public class UIManager : MonoBehaviour
 
             if (Input.GetMouseButtonDown(0))
             {
+                if (preview.GetComponent<Preview>().placementHittingCount > 0) return;
                 Instantiate(prefabList[_previewID], pos, Quaternion.identity);
                 TogglePreview(-1);
             }

@@ -1,17 +1,26 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
-    public const float Speed = 1;
-    public static int GameState;
+    public int gameState;
 
     public Transform reposition;
     public static GameManager Instance { get; private set; }
-    public GameObject[] obstacleList;
-    public int money { get; set; }
+    public int Money { get; set; }
+    public float Score { get; set; }
+    public GameObject[] coins;
+    public Image[] lives;
+    public Sprite live, dead;
+    public GameObject spring;
+    public Transform paper1, paper2;
     
     private int _life;
-
+    private List<GameObject> _pool;
+        
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -26,9 +35,20 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        GameState = 1;
+        _pool = new List<GameObject>();
+        
+        ResetScene();
+        
+        Score = 0;
         _life = 3;
-        money = 100;
+        Money = 0;
+        StartCoroutine(SpawnCoins());
+    }
+
+    private void Update()
+    {
+        if (gameState == 1)
+            Score += Time.deltaTime;
     }
 
     public void BallOutOfBound()
@@ -38,17 +58,49 @@ public class GameManager : MonoBehaviour
             Fail();
         }
 
-        GameState = 2;
-        //
+        ResetScene();
+    }
+
+    private void ResetScene()
+    {
+        foreach (var o in _pool)
+        {
+            Destroy(o);
+        }
+        _pool.Clear();
+
+        GameObject.Find("Ball").transform.position = new Vector3(3.8f, -1.39f, 0);
+        gameState = 0;
+        spring.SetActive(true);
+        UpdateLife();
+        paper1.position = new Vector3(0, -12.3600006f, 0);
+        paper2.position = new Vector3(0, -0.8100004f, 0);
+    }
+
+    private void UpdateLife()
+    {
+        for (var i = 0; i < 3; i++)
+        {
+            lives[i].sprite = i < 3 - _life ? dead : live;
+        }
     }
 
     private void Fail()
     {
-        GameState = 3;
+        gameState = 2;
+        StopCoroutine(SpawnCoins());
     }
 
-    private void SpawnObstacle(int id, Vector2 pos)
+    private IEnumerator SpawnCoins()
     {
-        var obj = Instantiate(obstacleList[id], pos, Quaternion.identity);
-    } 
+        while (true)
+        {
+            yield return new WaitForSecondsRealtime(Random.Range(1f, 3f));
+            
+            if (gameState != 1)
+                continue;
+
+            _pool.Add(Instantiate(coins[Random.Range(0, 2)], new Vector3(Random.Range(-4f, 4f), -5.6f, 0), Quaternion.identity));
+        }
+    }
 }

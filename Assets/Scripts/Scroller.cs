@@ -6,7 +6,7 @@ public class Scroller : MonoBehaviour
 {
     protected virtual void Update()
     {
-        if (GameManager.GameState == 1)
-            transform.Translate(Vector3.up * GameManager.Speed * Time.deltaTime, Space.World);
+        if (GameManager.Instance.gameState == 1)
+            transform.Translate(Vector3.up * .65f * Time.deltaTime, Space.World);
     }
 }

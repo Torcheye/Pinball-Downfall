@@ -10,6 +10,7 @@ TagManager:
   - Ball
   - Speeder
   - Flipper
+  - Coin
   layers:
   - Default
   - TransparentFX

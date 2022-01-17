@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Speeder : Scroller
@@ -17,7 +14,7 @@ public class Speeder : Scroller
     {
         if (col.CompareTag("Ball"))
         {
-            col.attachedRigidbody.AddForce(Vector2.up * 1500 * Time.deltaTime);
+            col.attachedRigidbody.AddForce(Vector2.up * 2300 * Time.deltaTime);
         }
     }
 }
