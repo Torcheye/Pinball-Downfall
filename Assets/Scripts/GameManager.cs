@@ -18,11 +18,12 @@ public class GameManager : MonoBehaviour
     public Sprite live, dead;
     public GameObject spring;
     public Transform paper1, paper2;
-    public GameObject FailUI;
+    public GameObject failUI;
+    public bool withIn;
     
     private int _life;
     private List<GameObject> _pool;
-        
+    
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -42,7 +43,8 @@ public class GameManager : MonoBehaviour
         Score = 0;
         _life = 3;
         Money = 0;
-        FailUI.SetActive(false);
+        withIn = true;
+        failUI.SetActive(false);
         ResetScene();
 
         StartCoroutine(SpawnCoins());
@@ -52,6 +54,16 @@ public class GameManager : MonoBehaviour
     {
         if (gameState == 1)
             Score += Time.deltaTime;
+        
+        if (gameState == 1 && !withIn)
+        {
+            gameState = 3;
+        }
+
+        if (gameState == 3 && withIn)
+        {
+            gameState = 1;
+        }
     }
 
     public void BallOutOfBound()
@@ -85,6 +97,8 @@ public class GameManager : MonoBehaviour
         paper2.position = new Vector3(0, -0.8100004f, 0);
     }
 
+    //hehe：D
+    
     private void UpdateLife()
     {
         for (var i = 0; i < 3; i++)
@@ -97,7 +111,7 @@ public class GameManager : MonoBehaviour
     {
         gameState = 2;
         StopCoroutine(SpawnCoins());
-        FailUI.SetActive(true);
+        failUI.SetActive(true);
     }
 
     private IEnumerator SpawnCoins()
@@ -109,7 +123,7 @@ public class GameManager : MonoBehaviour
             if (gameState != 1)
                 continue;
 
-            _pool.Add(Instantiate(coins[Random.Range(0, 2)], new Vector3(Random.Range(-4f, 4f), -5.6f, 0), Quaternion.identity));
+            _pool.Add(Instantiate(coins[Random.Range(0, 3)], new Vector3(Random.Range(-4f, 4f), -5.6f, 0), Quaternion.identity));
         }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -9,6 +10,7 @@ public class Ball : MonoBehaviour
     
     private SpriteRenderer _renderer;
     private Rigidbody2D _rigidbody;
+    private Vector2 _tempVel;
 
     private void Start()
     {
@@ -19,6 +21,24 @@ public class Ball : MonoBehaviour
         {
             _rigidbody.AddForce(new Vector2(300, 450));
             _rigidbody.AddTorque(1);
+        }
+    }
+
+    private void Update()
+    {
+        if (title) 
+            return;
+        
+        if (GameManager.Instance.gameState == 3 && _rigidbody.velocity != Vector2.zero)
+        {
+            _tempVel = _rigidbody.velocity;
+            _rigidbody.isKinematic = true;
+            _rigidbody.velocity = Vector2.zero;
+        }
+        if (GameManager.Instance.gameState == 1 && _rigidbody.velocity == Vector2.zero)
+        {
+            _rigidbody.isKinematic = false;
+            _rigidbody.velocity = _tempVel;
         }
     }
 

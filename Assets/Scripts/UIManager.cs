@@ -1,6 +1,7 @@
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
@@ -10,6 +11,7 @@ public class UIManager : MonoBehaviour
     public GameObject[] prefabList;
     public GameObject preview;
     public GameObject noMoney;
+    public Button restart;
 
     private int _previewID;
     private Transform _previewTransform;
@@ -23,6 +25,8 @@ public class UIManager : MonoBehaviour
             var i1 = i;
             obstacleList[i1].GetComponent<Button>().onClick.AddListener(delegate { AddListener(i1); });
         }
+        
+        restart.onClick.AddListener(delegate { SceneManager.LoadScene(0); });
 
         _previewID = -1;
         _previewSpriteRenderer = preview.GetComponent<SpriteRenderer>();
@@ -34,7 +38,7 @@ public class UIManager : MonoBehaviour
 
     private async void AddListener(int i1)
     {
-        if (GameManager.Instance.gameState > 1)
+        if (GameManager.Instance.gameState != 1 && GameManager.Instance.gameState != 3)
             return;
 
         var tempMoney = GameManager.Instance.Money - prefabList[i1].GetComponent<Placable>().value;
