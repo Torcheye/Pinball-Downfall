@@ -48,6 +48,7 @@ public class Spring : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0))
         {
+            AudioManager.Instance.Play(2);
             GameManager.Instance.gameState = 1;
             spring.DOScaleY(.27f, .13f).SetEase(Ease.OutElastic);
             push.DOMove(startPush.position, .13f);

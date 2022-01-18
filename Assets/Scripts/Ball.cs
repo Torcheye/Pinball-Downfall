@@ -51,12 +51,18 @@ public class Ball : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D col)
     {
         StartCoroutine(SwapSprite());
+
+        if (col.gameObject.CompareTag("BallBoundSafe"))
+        {
+            AudioManager.Instance.Play(3);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D col)
     {
         if (col.CompareTag("BallBound"))
         {
+            AudioManager.Instance.Play(7);
             GameManager.Instance.BallOutOfBound();
         }
     }

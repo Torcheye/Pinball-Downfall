@@ -109,6 +109,7 @@ public class GameManager : MonoBehaviour
 
     private void Fail()
     {
+        AudioManager.Instance.Play(8);
         gameState = 2;
         StopCoroutine(SpawnCoins());
         failUI.SetActive(true);

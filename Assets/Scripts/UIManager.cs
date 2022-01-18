@@ -87,6 +87,7 @@ public class UIManager : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 if (preview.GetComponent<Preview>().placementHittingCount > 0) return;
+                AudioManager.Instance.Play(6);
                 Instantiate(prefabList[_previewID], pos, Quaternion.identity);
                 TogglePreview(-1);
             }

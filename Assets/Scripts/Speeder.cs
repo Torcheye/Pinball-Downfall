@@ -8,6 +8,11 @@ public class Speeder : Scroller
         {
             Destroy(gameObject);
         }
+
+        if (col.CompareTag("Ball"))
+        {
+            AudioManager.Instance.Play(4);
+        }
     }
 
     private void OnTriggerStay2D(Collider2D col)

@@ -20,11 +20,13 @@ public class FlipperControl : MonoBehaviour
         
         if (Input.GetMouseButtonDown(0))
         {
+            AudioManager.Instance.Play(0);
             _rbody.AddTorque(1000, ForceMode2D.Impulse);
         }
         
         if (Input.GetMouseButtonDown(1))
         {
+            AudioManager.Instance.Play(0);
             _rbody.AddTorque(-1000, ForceMode2D.Impulse);
         }
     }
@@ -33,5 +35,13 @@ public class FlipperControl : MonoBehaviour
     {
         if (_rbody.angularVelocity > maxVel)
             _rbody.angularVelocity = maxVel;
+    }
+
+    private void OnCollisionEnter2D(Collision2D col)
+    {
+        if (col.gameObject.CompareTag("Ball"))
+        {
+            AudioManager.Instance.Play(1);
+        }
     }
 }

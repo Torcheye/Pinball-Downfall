@@ -1,5 +1,4 @@
-﻿using System;
-using DG.Tweening;
+﻿using DG.Tweening;
 using UnityEngine;
 
 public class Obstacle : Scroller
@@ -13,6 +12,7 @@ public class Obstacle : Scroller
         
         if (col.gameObject.CompareTag("Ball"))
         {
+            AudioManager.Instance.Play(2);
             GameManager.Instance.Score += GetComponent<Placable>().score;
 
             GetComponent<Collider2D>().enabled = false;
