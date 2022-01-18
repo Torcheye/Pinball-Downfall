@@ -14,7 +14,7 @@ public class Speeder : Scroller
     {
         if (col.CompareTag("Ball"))
         {
-            col.attachedRigidbody.AddForce(Vector2.up * 2300 * Time.deltaTime);
+            col.attachedRigidbody.AddForce(Vector2.up * 4000 * Time.deltaTime);
         }
     }
 }

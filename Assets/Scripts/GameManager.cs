@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -17,6 +18,7 @@ public class GameManager : MonoBehaviour
     public Sprite live, dead;
     public GameObject spring;
     public Transform paper1, paper2;
+    public GameObject FailUI;
     
     private int _life;
     private List<GameObject> _pool;
@@ -36,12 +38,13 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         _pool = new List<GameObject>();
-        
-        ResetScene();
-        
+
         Score = 0;
         _life = 3;
         Money = 0;
+        FailUI.SetActive(false);
+        ResetScene();
+
         StartCoroutine(SpawnCoins());
     }
 
@@ -55,10 +58,13 @@ public class GameManager : MonoBehaviour
     {
         if (--_life == 0)
         {
+            UpdateLife();
             Fail();
         }
-
-        ResetScene();
+        else
+        {
+           ResetScene(); 
+        }
     }
 
     private void ResetScene()
@@ -69,7 +75,9 @@ public class GameManager : MonoBehaviour
         }
         _pool.Clear();
 
-        GameObject.Find("Ball").transform.position = new Vector3(3.8f, -1.39f, 0);
+        var ball = GameObject.Find("Ball");
+        ball.transform.position = new Vector3(3.8f, -1.35f, 0);
+        ball.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         gameState = 0;
         spring.SetActive(true);
         UpdateLife();
@@ -89,6 +97,7 @@ public class GameManager : MonoBehaviour
     {
         gameState = 2;
         StopCoroutine(SpawnCoins());
+        FailUI.SetActive(true);
     }
 
     private IEnumerator SpawnCoins()
